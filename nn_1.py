@@ -92,6 +92,14 @@ class Network(object):
 
         return nabla_b, nabla_w
 
+    def evaluate(self, X):
+        max=0
+        all_a=self.feedforward(X)[0]
+        for i in range(1, len(all_a)):
+            if(np.array(all_a[max])[0][0]<np.array(all_a[i])[0][0]):
+                max=i
+        return max, np.array(all_a[max])[0][0]
+
 
 def sigmoid(z):
     return 1 / (1 + np.exp(-z))
@@ -112,24 +120,44 @@ def feedforward(X, weights, biases, num_layers):
 
     return all_a[-1]
 
-n=Network([2,1])
+n=Network([3,5,3])
 X=[
     [
-        [0],[0]
+        [0],[30],[5]
     ],[
-        [0],[1]
+        [2],[25],[6]
     ],[
-        [1],[0]
+        [3],[20],[6]
     ],[
-        [1],[1]
+        [5],[16],[5]
+    ],[
+        [6],[10],[-5]
+    ],[
+        [9],[7],[-6]
+    ],[
+        [11],[5],[-5]
+    ],[
+        [13],[1],[-6]
+    ],[
+        [17],[-1],[-6]
     ]
 ]
+
+#y's first dimension indicates 0 and the other indicates 1
 y=[
-    [[0]],
-    [[1]],
-    [[1]],
-    [[1]]
+    [[1], [0], [0]],
+    [[1], [0], [0]],
+    [[1], [0], [0]],
+    [[0], [1], [0]],
+    [[0], [1], [0]],
+    [[0], [1], [0]],
+    [[0], [0], [1]],
+    [[0], [0], [1]],
+    [[0], [0], [1]]
 ]
 
-weights, biases = n.gradient_descent(X, y, 1)
-print(feedforward([[0],[0]], weights, biases, 2))
+
+n.gradient_descent(X, y, 1)
+print(n.evaluate([[24], [-5], [-7]]))
+# print(n.feedforward([[6], [10]])[0])
+# print(feedforward([[0],[1]], weights, biases, 2))
