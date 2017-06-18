@@ -171,7 +171,7 @@ y = [
 
 import matplotlib.pyplot as plt
 
-n.gradient_descent(X, y, 0.01)
+n.gradient_descent(X, y, 1)
 print(n.evaluate([[24], [-5], [-7]]))
 all_J = n.all_J
 # print(all_J)
